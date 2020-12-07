@@ -7,13 +7,13 @@ def tour():
 
     while True:
 # --------------------------- ENDS AT 1 WIN ------------------------------------#
-        if not K.All_knights[0].board:
-            K.Winners.append(K.All_knights[0])
+        if not K.All_knights[-1].board:
+            K.Winners.append(K.All_knights[-1])
             break
 
         if len(K.Winners) == 1:
             break
-        K.All_knights[0].fragment_knight()
+        K.All_knights[-1].fragment_knight()
     print('congrats '+ str(K.Winners[0]+"\n"))
     for move in K.Winners[0].moves:
         print(move)
