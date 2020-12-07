@@ -13,22 +13,21 @@ class Knight:
         ]
     All_knights=[]
     Winners=[]
+    Highest=0
 
 # -------------------------------- Create Knight ------------------------------------
-    def __init__(self, place=None, ghost=False):
-        print(self)
+    def __init__(self, place, ghost=None):
+#        print(self)
         self.board=[]
         self.moves=[]
         self.create_board()
         self.ghost = ghost
         
-
         if ghost:
-            for move in self.moves:
+            for move in ghost:
                 self.place(move)
-
-        else:
-            self.place(place)
+        
+        self.place(place)
 
         Knight.All_knights.append(self)
 
@@ -36,7 +35,7 @@ class Knight:
     def place(self,place):
         self.moves.append(place)
         self.board.remove(place)
-        print("knight to : "+str(place))
+#        print("knight to : "+str(place))
 
 
 # -------------------------------- Mark used squares ------------------------------------
@@ -63,35 +62,24 @@ class Knight:
 
         return squares
 
+
 # -------------------------------- Replicate ghosts knights ------------------------------------
     def fragment_knight(self):
         var = 0
         for move in self.possible_squares():
-            new_knight=None
-            print("\nmove: "+ str(var+1))
-            print(move)
-            sleep(.5)
-            new_knight = Knight(ghost=True)
-            
-            print(new_knight.board)
-            new_knight.moves = self.moves
-            new_knight.place(move)
-            print("\nknights: "+str(len(Knight.All_knights)))
+            new_knight = Knight(move, ghost=self.moves)
             var += 1
+#        sleep(1)
+#            print("\nmove: "+ str(var+1))
+#            print(move)
+#            print(new_knight.board)
+#            print("\nknights: "+str(len(Knight.All_knights)))
+#       print('\nThis knight is dead: ' + str(self))
+        Knight.All_knights.remove(self)
+        if len(self.moves) > Knight.Highest:
+            Knight.Highest = len(self.moves)
+            print(f"\n{self} is the best yet with {len(self.moves)}\n\n{self.moves}")
+        if var % 100000000 == 0:
+            pass
+            #print(f"\nvar = {var}\nknights:  {str(len(Knight.All_knights))}")
 
-        print('\nThis knight is dead: ' + str(self))
-        del self
-        print("\nknights: "+ str(len(Knight.All_knights)))
-
-    def print(self):
-        for move in self.moves:
-            print(str(move) + '\n')
-def tour():
-    k = Knight(place=[1,1])
-    k.place([k.possible_squares()[0]])
-
-    for x in range(8):
-        for y in range(8):
-            k = Knight([x+1, y+1])
-            print(k.moves[0])
-            print(k.possible_squares())
